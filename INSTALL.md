@@ -99,7 +99,7 @@ Para salir de la consola de postgres
 Para instalar el proyecto debemos clonarlo desde nuestro repositorio:
 
 ```sh
-$ git clone git@gitlab.geo.gob.bo:agetic/backend_base-sisnodi-backend.git
+$ git clone https://github.com/GladysBravo/examen-frontend.git
 ```
 
 Ingresar a la carpeta:
@@ -189,80 +189,4 @@ $ npm run lint
 + Genera la documentacion del sistema
 ```
 $ npm run apidoc
-```
-
-##### RAM
-
-NodeJS por defecto utiliza 1.76GB en máquinas de 64 bits, para aumentar este parámetro es necesario utilizar el siguiente comando: "--max_old_space_size=".
-
-Para hacer esto, se debe modificar el archivo package.json, en la opción start, línea 7 aproximadamente, por ejemplo para utilizar 4GB de RAM cambiar por:
-
-```sh
-...
-...
-  "scripts": {
-    "start": "babel-node --max_old_space_size=4096 index.js",
-    ...
-  }
-...
-...
-```
-Referencia:
-> http://prestonparry.com/articles/IncreaseNodeJSMemorySize/
-
-
-## Configuración de supervisor
-Si se desea hacer correr la aplicación mediante `supervisor` se debe realizar la siguiente configuración:
-
-Navegar hasta la ruta:
-```sh
-$ cd /etc/supervisor/conf.d/
-```
-Crear un archivo para hacer correr la aplicación de backend, en este ejemplo, se definirá el archivo bajo el nombre de `backend_baseBackendDEV`:
-```sh
-$ sudo touch backend_baseBackendDEV.conf
-```
-Nota
-- Si no te no te permite modificar el archivo backend_baseBackendDEV.conf
-```
-$ sudo chmod 777 backend_baseBackendDEV.conf
-```
-Y colocar el siguiente contenido:
-
-##### Ambiente de desarrollo
-
-```sh
-[program:backend_baseBackendDEV]
-command=/home/usuario/.nvm/versions/node/v6.10.1/bin/npm start
-directory=/home/usuario/backend_base-sisnodi-backend
-autostart=true
-autorestart=true
-stderr_logfile=/var/log/backend_baseBackendDEV.err.log
-stdout_logfile=/var/log/backend_baseBackendDEV.out.log
-user=usuario
-```
-
-##### Reiniciar "supervisor"
-Cuando se hagan cambios y se requiere reiniciar el servicio "supervisor" para que se ejecute la aplicación:
-```sh
-$ sudo /etc/init.d/supervisor restart
-```
-Para verificar que la aplicación este efectivamente corriendo, se puede ejecutar el siguiente comando, y verificar que la aplicación este corriendo en el puerto configurado:
-```sh
-$ netstat -ltpn
-
-Proto Recv-Q Send-Q Local Address           Foreign Address         State       PID/Program name
-tcp        0      0 0.0.0.0:80              0.0.0.0:*               LISTEN      -               
-tcp        0      0 0.0.0.0:22              0.0.0.0:*               LISTEN      -               
-tcp        0      0 0.0.0.0:5432            0.0.0.0:*               LISTEN      -               
-tcp6       0      0 :::4000                 :::*                    LISTEN      32274/nodejs
-tcp6       0      0 :::3000                 :::*                    LISTEN      4381/gulp
-```
-
-Ó se puede revisar las tareas del `supervisor`, buscar el nombre de la tarea y su respectivo estado:
-
-```sh
-$ sudo supervisorctl
-
-backend_baseBackendDEV                   RUNNING    pid 4617, uptime 3 days, 21:41:05
 ```
