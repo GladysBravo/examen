@@ -9,7 +9,7 @@
     "test": "NODE_ENV=test FORCE=true babel-node index.js && sequelize db:seed:all --env test --config src/config/config.json --seeders-path src/seeders/ && sequelize db:migrate:undo:all --env test --config src/config/config.json --migrations-path src/migrations && sequelize db:migrate --env test --config src/config/config.json --migrations-path src/migrations && NODE_ENV=test mocha --timeout 25000 test/**/**/*.js",
     "lint": "eslint *.js test/*.js eslint src --ext js",
     "apidoc": "apidoc -f '.*\\.route.js' -o public/apidoc",
-    "setup": "FORCE=true babel-node index.js && node scripts/importar_parametros_csv && sequelize db:seed:all --config src/config/config.json --seeders-path src/seeders && sequelize db:migrate:undo:all --config src/config/config.json --migrations-path src/migrations && sequelize db:migrate --config src/config/config.json --migrations-path src/migrations",
+    "setup": "FORCE=true babel-node index.js && sequelize db:seed:all --config src/config/config.json --seeders-path src/seeders && sequelize db:migrate:undo:all --config src/config/config.json --migrations-path src/migrations && sequelize db:migrate --config src/config/config.json --migrations-path src/migrations",
     "instalar": "npm install",
     "startdev": "nodemon --exec 'babel-node index.js'"
   },
