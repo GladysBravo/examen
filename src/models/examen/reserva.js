@@ -23,6 +23,19 @@ module.exports = (sequelize, DataType) => {
       field: 'hora_fin',
       allowNull: false,
     },
+    estado: {
+      type: DataType.STRING(30),
+      field: 'estado',
+      xlabel: 'Estado',
+      allowNull: false,
+      defaultValue: 'ACTIVO',
+      validate: {
+        isIn: {
+          args: [['ACTIVO', 'CANCELADO']],
+          msg: 'El campo estado sólo permite valores: ACTIVO o CANCELADO.',
+        },
+      },
+    },
     _usuario_creacion: {
       type: DataType.INTEGER,
       field: '_usuario_creacion',
