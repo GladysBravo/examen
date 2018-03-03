@@ -7,6 +7,12 @@ module.exports = (sequelize, DataType) => {
       autoIncrement: true,
       xlabel: 'Id de la reserva_horario',
     },
+    fecha_reserva: {
+      type: DataType.DATEONLY,
+      field: 'fecha_reserva',
+      xlabel: 'Fecha de reserva',
+      allowNull: false,
+    },
     hora_inicio: {
       type: DataType.STRING(10),
       field: 'hora_inicio',

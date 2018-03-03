@@ -9,6 +9,7 @@ module.exports = (app) => {
   const ReservaHorarioModel = app.src.db.models.reserva_horario;
   const AulaModel = app.src.db.models.aula;
   const MateriaModel = app.src.db.models.materia;
+  const DocenteModel = app.src.db.models.docente;
 
   reservarController.registrarReservaHorario = (req, res) => {
     // necesitamos rango de horas
@@ -98,60 +99,66 @@ module.exports = (app) => {
     })
   };
 
-  // reservarController.cancelarreservar = (req, res) => {
-  //   const reservarModificar = {};
-  //   // necesitamos fecha y rango de horas
-  //   /*
-  //   id_reservar : 1 ,
-  //   estado = 'CANCELADO'
-  //   */
-  //   const reservarCrear = req.body;
-  //
-  //   sequelize.transaction().then((t)=> {
-  //     const tr = { transaction: t };
-  //     return reservarModel.findById(req.params.id_reservar, tr)
-  //     .then((respReserva) => {
-  //       if (!respReserva) throw new Error('La reservar no esta Registrado.');
-  //       reservarModificar._usuario_modificacion = 1;
-  //       reservarModificar.estado = req.query.estado;
-  //       return respReserva.updateAttributes(reservarModificar, tr)
-  //     })
-  //     .then((reservaCreado) => {
-  //       t.commit();
-  //       return res.status(201).json({
-  //         finalizado: true,
-  //         mensaje: 'reservar cancelado exitosamente.',
-  //         datos: {},
-  //       });
-  //     })
-  //     .catch((error) => {
-  //       t.rollback();
-  //       return res.status(412).json({
-  //         finalizado: false,
-  //         mensaje: error.message,
-  //         datos: {},
-  //       });
-  //     });
-  //   })
-  // };
-  //
-  // reservarController.listarreservars = (req, res) => {
-  //   const consulta = util.formarConsulta(req.query, app.src.db.models.reservar, app.src.db.models, 2);
-  //   return app.dao.reservar.obtenerSolicitudes(consulta)
-  //   .then((pSolicitudes) => {
-  //     return res.json({
-  //       finalizado: true,
-  //       mensaje: 'Obtención exitosa de salas.',
-  //       datos: pSolicitudes,
-  //     });
-  //   })
-  //   .catch((pError) => {
-  //     console.log('\n\nRevisando el error', pError);
-  //     res.status(412).json({
-  //       finalizado: false,
-  //       mensaje: pError.message,
-  //       datos: {},
-  //     });
-  //   });
-  // };
+
+  reservarController.listarReservarHorario = (req, res) => {
+    const consulta = util.formarConsulta(req.query, app.src.db.models.reserva_horario, app.src.db.models, 2);
+    return obtenerSolicitudes(consulta)
+    .then((pSolicitudes) => {
+      return res.json({
+        finalizado: true,
+        mensaje: 'Obtención exitosa.',
+        datos: pSolicitudes,
+      });
+    })
+    .catch((pError) => {
+      console.log('\n\nRevisando el error', pError);
+      res.status(412).json({
+        finalizado: false,
+        mensaje: pError.message,
+        datos: {},
+      });
+    });
+  };
+
+  function obtenerSolicitudes(consulta) {
+    console.log('-------------------------', consulta);
+    return ReservaHorarioModel.findAndCountAll({
+      // where: consulta.condicionSolicitud || {},
+      include: [
+        {
+          model: AulaModel,
+          as: 'aula',
+          // where: consulta.condicionAula || {},
+          required: false,
+        },
+        {
+          model: MateriaModel,
+          as: 'materia',
+          required: false,
+          include: [
+            {
+              model: DocenteModel,
+              as: 'docente',
+              required: false,
+            },
+          ],
+        },
+      ],
+      subQuery: false,
+      limit: consulta.limit,
+      offset: consulta.offset,
+      order: consulta.order || [['id_reserva_horario', 'ASC']],
+    })
+    .then((pResp) => {
+      const respuesta = {
+        count: pResp.count,
+        rows: pResp.rows,
+      };
+      return respuesta;
+    })
+    .catch(error => {
+      console.log("ERROR EN LA CONSULTA", error);
+      return error;
+    });
+  }
 };

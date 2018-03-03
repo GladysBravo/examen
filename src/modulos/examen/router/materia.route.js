@@ -71,8 +71,20 @@ module.exports = (app) => {
                   "_usuario_modificacion": null,
                   "_fecha_creacion": "2018-03-03T16:32:48.606Z",
                   "_fecha_modificacion": "2018-03-03T16:32:48.606Z",
-                  "fid_docente": 1
+                  "docente": {
+                      "id_docente": 1,
+                      "documento_identidad": "123456",
+                      "nombres": "gladys",
+                      "primer_apellido": "bravo",
+                      "segundo_apellido": null,
+                      "estado": "ACTIVO",
+                      "_usuario_creacion": 1,
+                      "_usuario_modificacion": null,
+                      "_fecha_creacion": "2018-03-03T16:32:43.725Z",
+                      "_fecha_modificacion": "2018-03-03T16:32:43.725Z"
+                  }
               }
+              ......
           ]
       }
   }
@@ -109,7 +121,18 @@ module.exports = (app) => {
           "_usuario_modificacion": null,
           "_fecha_creacion": "2018-03-03T16:32:48.606Z",
           "_fecha_modificacion": "2018-03-03T16:32:48.606Z",
-          "fid_docente": 1
+          "docente": {
+                    "id_docente": 1,
+                    "documento_identidad": "123456",
+                    "nombres": "gladys",
+                    "primer_apellido": "bravo",
+                    "segundo_apellido": null,
+                    "estado": "ACTIVO",
+                    "_usuario_creacion": 1,
+                    "_usuario_modificacion": null,
+                    "_fecha_creacion": "2018-03-03T16:32:43.725Z",
+                    "_fecha_modificacion": "2018-03-03T16:32:43.725Z"
+                }
       }
   }
    *

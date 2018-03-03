@@ -1,7 +1,7 @@
 module.exports = (app) => {
 
   /**
-    * @api {post} /public/aulas/registrar  Registrar Aula
+    * @api {post} /public/aulas  Registrar Aula
     * @apiName Registrar Aula
     * @apiGroup Aula
     * @apiDescription Para registrar Aula
@@ -32,10 +32,10 @@ module.exports = (app) => {
   *
   *
   */
-  app.apiPublic.post('/aulas/registrar', app.controller.aula.registrarAula);
+  app.apiPublic.post('/aulas', app.controller.aula.registrarAula);
 
   /**
-    * @api {post} /public/aulas/listar?order=&limit=&page=  Listar Aula
+    * @api {post} /public/aulas?order=&limit=&page=  Listar Aula
     * @apiName Listar Aula
     * @apiGroup Aula
     * @apiDescription Para listar un Aula
@@ -70,10 +70,10 @@ module.exports = (app) => {
   *
   *
   */
-  app.apiPublic.get('/aulas/listar', app.controller.aula.listarAula);
+  app.apiPublic.get('/aulas', app.controller.aula.listarAula);
 
   /**
-   * @api {get} /public/aulas/listar/:id_aula Obtener Aula
+   * @api {get} /public/aulas/:id_aula Obtener Aula
    * @apiName Obtener Aula
    * @apiGroup Aula
    * @apiDescription Para obtener un Aula
@@ -108,6 +108,6 @@ module.exports = (app) => {
    *       "msg": "No existe el registro."
    *     }
    */
-  app.apiPublic.get('/aulas/listar/:id_aula', app.controller.aula.listarAulaId);
+  app.apiPublic.get('/aulas/:id_aula', app.controller.aula.listarAulaId);
 
 };

@@ -6,10 +6,16 @@ module.exports = (app) => {
   _app.dao.materia = {};
 
   const MateriaModel = app.src.db.models.materia;
+  const DocenteModel = app.src.db.models.docente;
 
   function obtenerMaterias(consulta) {
     return MateriaModel.findAndCountAll({
       // attributes: ["id_materia", "nombres", "documento_identidad", "estado"],
+      include: [{
+        model: DocenteModel,
+        as: 'docente',
+        required: false,
+      }],
       where: consulta.condicionSolicitud || {},
       subQuery: false,
       limit: consulta.limit,
@@ -32,6 +38,11 @@ module.exports = (app) => {
   function obtenerMateriaId(id_materia) {
     return MateriaModel.findOne({
       // attributes: ["id_materia", "nombre", "cod_materia", "estado"],
+      include: [{
+        model: DocenteModel,
+        as: 'docente',
+        required: false,
+      }],
       where: {
         id_materia
       },
